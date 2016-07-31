@@ -1,0 +1,2 @@
+Title "Diagram for su(2) Lie algebra"
+Node 1 NodeOrdinary

@@ -1,0 +1,4 @@
+Title "Diagram for su(3) Lie algebra"
+Node 1 NodeOrdinary
+Node 2 NodeOrdinary
+Link (1, 2) LinkSingle
