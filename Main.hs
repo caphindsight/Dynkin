@@ -87,7 +87,7 @@ run file = do
     
     closed <- hClose h
 
-    done@(exitCode, stdout, stderr) <- readProcessWithExitCode "math" ["-script", script] ""
+    done@(exitCode, stdout, stderr) <- seq closed $ readProcessWithExitCode "math" ["-script", script] ""
 
     if debug
         then return ()

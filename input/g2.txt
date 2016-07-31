@@ -1,4 +1,7 @@
 Title "Diagram for g2 Lie algebra"
+
 Node 1 NodeOrdinary
 Node 2 NodeExtraShort
+
 Link (1, 2) LinkTriple
+

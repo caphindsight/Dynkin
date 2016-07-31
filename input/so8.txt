@@ -1,8 +1,11 @@
 Title "Diagram for so(8) Lie algebra"
+
 Node 1 NodeOrdinary
 Node 2 NodeOrdinary
 Node 3 NodeOrdinary
 Node 4 NodeOrdinary
+
 Link (1, 2) LinkSingle
 Link (1, 3) LinkSingle
 Link (1, 4) LinkSingle
+
