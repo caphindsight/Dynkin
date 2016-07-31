@@ -1,0 +1,20 @@
+Title "Diagram for e8 Lie algebra"
+
+Node 1 NodeOrdinary
+Node 2 NodeOrdinary
+Node 3 NodeOrdinary
+Node 4 NodeOrdinary
+Node 5 NodeOrdinary
+Node 6 NodeOrdinary
+Node 7 NodeOrdinary
+Node 8 NodeOrdinary
+Node 9 NodeOrdinary
+
+Link (1, 2) LinkSingle
+Link (2, 3) LinkSingle
+Link (3, 4) LinkSingle
+Link (4, 5) LinkSingle
+Link (5, 6) LinkSingle
+Link (6, 7) LinkSingle
+Link (3, 8) LinkSingle
+Link (8, 9) LinkSingle
