@@ -56,38 +56,43 @@ run file = do
 
     write "(* Finding simple roots: *)"
     let a1 = foldl (++) "{1" (replicate (n-1) ", 0") ++ "}"
-    write $ "a1 = " ++ a1 ++ ";"
-    write $ "Print[\"a[1] = \", " ++ a1 ++ "]"
+    write $ "p1 = " ++ a1 ++ ";"
 
     let iter k = do
         let nt = ns ! k
 
-        let coords = ["a" ++ show k ++ "x" ++ show i | i <- [1..k]]
+        let coords = ["p" ++ show k ++ "x" ++ show i | i <- [1..k]]
         let coordsStrPrefix = "{" ++ foldl1 (\a b -> a ++ ", " ++ b) coords
         let coordsStr = coordsStrPrefix ++ "}"
         let coordsStrFull = coordsStrPrefix ++ foldl (++) "" (replicate (n-k) ", 0") ++ "}"
 
-        let conds = ["Evaluate[" ++ coordsStrFull ++ " . a" ++ show i ++ "] == "
+        let conds = ["Evaluate[" ++ coordsStrFull ++ " . p" ++ show i ++ "] == "
                         ++ nodeLength nt ++ " * " ++ nodeLength (ns ! i) ++ " * "
                         ++ angleCosStr (ls ! (k, i)) | i <- [1..(k-1)]]
 
         let allConds = foldl (++) "" $ map (++ " && ") conds
 
-        let sumSquares = foldl1 (\a b -> a ++ " + " ++ b) ["a" ++ show k ++ "x" ++ show i ++ "^2" | i <- [1..k]]
+        let sumSquares = foldl1 (\a b -> a ++ " + " ++ b)
+                ["p" ++ show k ++ "x" ++ show i ++ "^2" | i <- [1..k]]
 
-        write ""
-
-        write $ "a" ++ show k ++ " = Simplify[ " ++ coordsStrFull ++ " /. MySolve[" ++ allConds ++ "a"
-                ++ show k ++ "x" ++ show k ++ " > 0 && " ++ sumSquares ++ " == " ++ nodeLength nt ++ "^2"
-                ++ ", " ++ coordsStr ++ "] ];"
-
-        write $ "Print[\"a[" ++ show k ++ "] = \", a" ++ show k ++ "];"
+        write $ "p" ++ show k ++ " = Simplify[ " ++ coordsStrFull ++ " /. MySolve["
+                    ++ allConds ++ "p" ++ show k ++ "x" ++ show k ++ " > 0 && "
+                    ++ sumSquares ++ " == " ++ nodeLength nt ++ "^2"
+                    ++ ", " ++ coordsStr ++ "] ];"
 
     sequence $ map iter [2..n]
+
+    write $ "primeRoots = {"
+        ++ foldl (\a b -> a ++ ", " ++ b) "p1" ["p" ++ show i | i <- [2..n]]
+        ++ "};"
+    write "roots = ExpandRoots[primeRoots];"
+    write $ "Print[\"rootsLen = \", Length[roots], \";\"];"
+    write "PrintRoots[roots, \"r\"];"
     
     closed <- hClose h
 
-    done@(exitCode, stdout, stderr) <- seq closed $ readProcessWithExitCode "math" ["-script", script] ""
+    done@(exitCode, stdout, stderr) <- seq closed $
+            readProcessWithExitCode "math" ["-script", script] ""
 
     if debug
         then return ()
